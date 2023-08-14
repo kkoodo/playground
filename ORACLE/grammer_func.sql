@@ -42,7 +42,7 @@ BEGIN
         
         FOR I IN 1..vROW_LENGTH
         LOOP
-            SELECT NVL(MAX(OUTPUT_WORD), '¿')
+            SELECT NVL(MAX(OUTPUT_WORD), 'X')
               INTO vDECRYPTED_LETTER
               FROM TBL_GRAMMER 
              WHERE INPUT_WORD = SUBSTR(vENCRYPTED_TEXT, I, 1);
@@ -61,14 +61,8 @@ BEGIN
         
     END LOOP;
 
-    DBMS_OUTPUT.PUT_LINE('★★★★★ WELCOME ★★★★★' || CHR(10) || vCHAT_LOG);
+    DBMS_OUTPUT.PUT_LINE('+----- WELCOME -----+' || CHR(10) || vCHAT_LOG);
 
     RETURN vCHAT_LOG;
 END;
 /    
-
---==============================================================================
--- 영어를 한글로 입력 (ex : hello → ㅗㄷㅣㅣㅐ)
-SELECT FUNC_GRAMMER('ㅐㄱㅇㄷㄱ ㅠㅛ ㄴㅑㅠㅁㅣ') AS "환영티비"
-  FROM DUAL;
---==============================================================================

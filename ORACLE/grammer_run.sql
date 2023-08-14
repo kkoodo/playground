@@ -37,3 +37,10 @@ CREATE SEQUENCE SEQ_LETTER
     START WITH 1
     INCREMENT BY 1
     NOCACHE;
+
+--==============================================================================
+-- If you want to show some English words, type in Korean.
+-- For example, if you want to show up 'HELLO', then type 'ㅗㄷㅣㅣㅐ'.
+SELECT FUNC_GRAMMER('TYPE HERE') AS "CHAT"
+  FROM DUAL;
+--==============================================================================    
