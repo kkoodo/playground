@@ -11,10 +11,10 @@ BEGIN
         SELECT DUPLICATE_CHECK(TBL_ROW.ID)
           INTO vIS_EXIST
           FROM DUAL;
-          
+        
+        vLOG_ID := LPAD(TBL_ROW.ID, 4, '0');
+        
         IF vIS_EXIST IS NULL THEN
-            vLOG_ID := LPAD(TBL_ROW.ID, 4, '0');
-            
             -- STEP1. START RECORDING TBL_PRTC_LOG TABLE AND THE STATUS IS 'START'
             RECORD_JOB_LOG(vLOG_ID, 'START', '01');
             
@@ -50,7 +50,7 @@ BEGIN
                     || 'SYSTIMESTAMP'
                     || CHR(10) || ')';
             
-    --        DBMS_OUTPUT.PUT_LINE('vSQL : ' || CHR(10) || vSQL);
+            DBMS_OUTPUT.PUT_LINE('vSQL : ' || CHR(10) || vSQL);
             
             -- STEP4. IF WRITING QUERY FINISHED, UPDATE LOG'S STATUS TO 'UPDATE' AND EXECUTE DINAMIC QUERY
             RECORD_JOB_LOG(vLOG_ID, 'UPDATE', '04');
@@ -61,7 +61,9 @@ BEGIN
 
             -- STEP5. IF EXECUTE COMMIT, THEN UPDATE LOG'S STATUS TO 'FINISH'
             RECORD_JOB_LOG(vLOG_ID, 'FINISH', '05');
-            
+        
+        ELSE RECORD_JOB_LOG(vLOG_ID, 'REPET', '--');
+        
         END IF;        
         
     END LOOP;
