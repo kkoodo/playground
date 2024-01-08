@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+    <title>Grammer Practice</title>
+</head>
+<body>
+    <div class="summary">
+        <h3>Practice Grammar List</h3>
+        <li>Ternary Operator</li>
+        <li>Spread Syntax</li>
+    </div>
+
+    <br>
+
+    <div class="content">
+        <h3>INPUT AREA</h3>
+        <div class="inputArea">
+            <div class="searchForm1">
+                <li>TEXT</li>
+                    <label for="">ID</label>
+                        <input type="text" name="userId" placeholder="Enter your ninkname.">
+            </div>
+    
+            <div class="searchForm2">
+                <li>RADIO</li>
+                    <label for="">Male</label>
+                        <input type="radio" name="userSex" id="">
+                    <label for="">Female</label>
+                        <input type="radio" name="userSex" id="">
+                    <label for="">None</label>
+                        <input type="radio" name="userSex" id="">
+            </div>
+    
+            <div class="searchForm3">
+                <li>CHECKBOX</li>
+                    <label for="">Tutorial</label>
+                        <input type="checkbox" name="tutorial" id="">
+                    <label for="">Quest</label>
+                        <input type="checkbox" name="quest" id="">
+                    <label for="">Job</label>
+                        <input type="checkbox" name="job" id="">
+            </div>
+    
+            <div class="searchForm4">
+                <li>SELECTBOX</li>
+                    <label for="job">Job</label>
+                        <select class="selectBoxes" name="jobSelectBox" id=""></select>
+                    <label for="level">Level</label>
+                        <select class="selectBoxes" name="levelSelectBox" id=""></select>
+            </div>
+        </div>
+        
+        <div class="btnArea">
+            <button id="initializingBtn">
+                INITIALIZING
+            </button>
+            <button id="submitBtn">
+                SUBMIT
+            </button>
+        </div>
+
+        <div class="submitArea">
+            <h3>EXMAPLE</h3>
+            <table class="userDataSample" style="border: 1px solid black;">
+                <tr>
+                    <th>ID</th>
+                </tr>
+                <tr>
+                    <td>
+                        SEX
+                    </td>
+                    <td>
+                        MODE
+                    </td>
+                </tr>
+            </table>
+
+            <h3>SUBMIT AREA</h3>
+            <table class="userDataGrid" style="border: 1px solid black;"></table>
+        </div>
+    </div>
+
+    <script>
+        /* DataGrid */
+        const defSelectOp = `<option value="000">===choose===</option>`;
+
+        const jobDataGrid = {
+            "001" : "Worrior",
+            "002" : "Archer",
+            "003" : "Priest",
+        };
+
+        const levelDataGrid = {
+            "A" : "Easy",
+            "B" : "Normal",
+            "C" : "Hard"
+        };
+
+        var userDataGrid = {
+            "ID" : {
+                "ID" : "",
+                "SEX" : "",
+                "MODE" : {"LEVEL" : undefined},
+            }
+        }
+    </script>
+
+    <script>
+
+        $(() => {
+            $('[name=jobSelectBox]').empty();
+            $('[name=jobSelectBox]').append(defSelectOp);
+            for(key in jobDataGrid) $('[name=jobSelectBox]').append(`<option value="${key}">${jobDataGrid[key]}</option>`);
+            
+            $('[name=levelSelectBox]').empty();
+            $('[name=levelSelectBox]').append(defSelectOp);
+            for(key in levelDataGrid) $('[name=levelSelectBox]').append(`<option value="${key}">${levelDataGrid[key]}</option>`);
+        })
+
+        $("#submitBtn").off("click").on("click", () => {
+            // $('.userDataGrid').empty();
+        })
+    </script>
+
+    <script>
+        /* Validation */
+        const validator = function(type, text) {
+            switch(type) {
+                case "TEXT" : 
+                    if(id in userDataGrid) alert("ID duplicated.");
+                    break;
+                case "RADIO" :
+                    if($('input[type=radio]').prop("checked")) alert("Please choose any gender.");
+                    break;
+                case "CHECK" :
+                    if($('input[type=checkbox]').prop("checked")) alert("Please choose mode more than 1.");
+                case "SELECT" :
+                    // This object using when after DOM elemnts are loaded. So, can use "querySelectorAll".
+                    // example : var selectBoxes = document.querySelectorAll(".selectBoxes");
+                    if($('input[name=job]') && $('input[name=jobSelectBox] option:checked').val() == "000") alert("Please choose a job.");
+                    if($('input[name=levelSelectBox] option:checked').val() == "000") alert("Please choose a mode level.");
+            }
+        }
+    </script>
+</body>
+
+</html>
