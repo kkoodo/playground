@@ -22,35 +22,35 @@
             <div class="searchForm1">
                 <li>TEXT</li>
                     <label for="">ID</label>
-                        <input type="text" name="userId" placeholder="Enter your ninkname.">
+                        <input type="text" class="text" name="userId" id="id" placeholder="Enter your ninkname.">
             </div>
     
             <div class="searchForm2">
                 <li>RADIO</li>
                     <label for="">Male</label>
-                        <input type="radio" name="userSex" id="">
+                        <input type="radio" class="radios" name="userSex" id="male" value="Male">
                     <label for="">Female</label>
-                        <input type="radio" name="userSex" id="">
+                        <input type="radio" class="radios" name="userSex" id="female" value="Female">
                     <label for="">None</label>
-                        <input type="radio" name="userSex" id="">
+                        <input type="radio" class="radios" name="userSex" id="none" value="None">
             </div>
     
             <div class="searchForm3">
                 <li>CHECKBOX</li>
                     <label for="">Tutorial</label>
-                        <input type="checkbox" name="tutorial" id="">
+                        <input type="checkbox" class="checkBoxes" name="userMode" id="tutorialYn" value="Tutorial">
                     <label for="">Quest</label>
-                        <input type="checkbox" name="quest" id="">
+                        <input type="checkbox" class="checkBoxes" name="userMode" id="questYn" value="Quest">
                     <label for="">Job</label>
-                        <input type="checkbox" name="job" id="">
+                        <input type="checkbox" class="checkBoxes" name="userMode" id="jobYn" value="Job">
             </div>
     
             <div class="searchForm4">
                 <li>SELECTBOX</li>
                     <label for="job">Job</label>
-                        <select class="selectBoxes" name="jobSelectBox" id=""></select>
+                        <select class="selectBoxes" name="userSelect" id="job"></select>
                     <label for="level">Level</label>
-                        <select class="selectBoxes" name="levelSelectBox" id=""></select>
+                        <select class="selectBoxes" name="userSelect" id="level"></select>
             </div>
         </div>
         
@@ -61,11 +61,14 @@
             <button id="submitBtn">
                 SUBMIT
             </button>
+            <button id="modiFyBtn">
+                MODIFY
+            </button>
         </div>
 
         <div class="submitArea">
-            <h3>EXMAPLE</h3>
-            <table class="userDataSample" style="border: 1px solid black;">
+            <h3 class="sample">EXMAPLE</h3>
+            <table class="sample" style="border: 1px solid black;">
                 <tr>
                     <th>ID</th>
                 </tr>
@@ -100,49 +103,107 @@
             "C" : "Hard"
         };
 
-        var userDataGrid = {
-            "ID" : {
-                "ID" : "",
-                "SEX" : "",
-                "MODE" : {"LEVEL" : undefined},
-            }
-        }
+        var userDataGrid = {};
+        // var userDataGrid = {
+        //     userId : {
+        //         "ID" : "",
+        //         "SEX" : "",
+        //         "JOB" : "",
+        //         "LEVEL" : "",
+        //         "MODE" : [],
+        //     }
+        // }
+
+        var message;
     </script>
 
     <script>
+        $(() => initOp());
 
-        $(() => {
-            $('[name=jobSelectBox]').empty();
-            $('[name=jobSelectBox]').append(defSelectOp);
-            for(key in jobDataGrid) $('[name=jobSelectBox]').append(`<option value="${key}">${jobDataGrid[key]}</option>`);
-            
-            $('[name=levelSelectBox]').empty();
-            $('[name=levelSelectBox]').append(defSelectOp);
-            for(key in levelDataGrid) $('[name=levelSelectBox]').append(`<option value="${key}">${levelDataGrid[key]}</option>`);
+        $('#jobYn').off("click").on("click", () => {
+            if($('#jobYn').prop('checked')) $('#job').prop("disabled", false);
+            else $('#job').prop("disabled", true);
+        })
+        
+        $("#initializingBtn").off("click").on("click", () => {
+            $('#id').prop("value", "");
+            $('.radios').prop("checked", false);
+            $('.checkBoxes').prop("checked", false);
+            initOp();
         })
 
         $("#submitBtn").off("click").on("click", () => {
-            // $('.userDataGrid').empty();
+            // If write variable "message" in here, below if statement doesn't read validator function's return value.
+            // var message;
+
+            if(!!validator("TEXT", $('#id').val())) alert(message);
+            else if(!!validator("RADIO")) alert(message);
+            else if(!!validator("CHECK")) alert(message);
+            else if(!!validator("SELECT")) alert(message);
+            else {
+                var modeArr = [];
+                var checkBoxes = document.getElementsByClassName("checkBoxes");
+                // var checkBoxes = $('input[name=userMode]:checked');
+                for(i = 0; i < checkBoxes.length; i++) if(checkBoxes[i].checked) modeArr.push(checkBoxes[i]["value"]);
+
+                userDataGrid[$('#id').val()] = {
+                    "ID" : $('#id').val(),
+                    "SEX" : $('input[name=userSex]:checked').val(),
+                    "JOB" : $('#jobYn').prop('checked') ? $('#job option:checked').prop("innerText") : undefined,
+                    "LEVEL" : $('#level option:checked').prop("innerText"),
+                    "MODE" : modeArr
+                }
+                console.log("userDataGrid ☞ ", userDataGrid);
+
+                $('.userDataGrid').empty();
+                $.each(userDataGrid, function(key, {ID, SEX, JOB, LEVEL, MODE}){
+                    $('.userDataGrid').append(`<tr><th>ID</th><td>${ID}</td><th>JOB</th><td>${JOB ? JOB : "-"}</td><th>SEX</th><td>${SEX}</td></tr>`);
+                    $('.userDataGrid').append(`<tr><th>MODE</th><td>${MODE.join(", ")}</td><th>LEVEL</th><td>${LEVEL}</td></tr>`);
+                })
+
+                $('.sample').hide();
+            }
+        })
+
+        $("#modiFyBtn").off("click").on("click", () => {
+            // starting here...★
         })
     </script>
 
     <script>
+        /* Initializing Options */
+        const initOp = function() {
+            $('#job').empty();
+            $('#job').append(defSelectOp);
+            for(key in jobDataGrid) $('#job').append(`<option value="${key}">${jobDataGrid[key]}</option>`);
+
+            $('#job').prop("disabled", true);
+            
+            $('#level').empty();
+            $('#level').append(defSelectOp);
+            for(key in levelDataGrid) $('#level').append(`<option value="${key}">${levelDataGrid[key]}</option>`);
+        }
+
         /* Validation */
-        const validator = function(type, text) {
+        const validator = function(type, string) {
             switch(type) {
                 case "TEXT" : 
-                    if(id in userDataGrid) alert("ID duplicated.");
+                    if(string in userDataGrid) return message = "ID duplicated.";
+                    else if(string == undefined || string.length == 0) return message = "ID is not written.";
                     break;
                 case "RADIO" :
-                    if($('input[type=radio]').prop("checked")) alert("Please choose any gender.");
+                    if(!$('input[type=radio]:checked')[0]) return message = "Please choose any gender.";
                     break;
                 case "CHECK" :
-                    if($('input[type=checkbox]').prop("checked")) alert("Please choose mode more than 1.");
+                    if(!$('input[type=checkbox]:checked')[0]) return message = "Please choose mode more than 1.";
+                    break;
                 case "SELECT" :
                     // This object using when after DOM elemnts are loaded. So, can use "querySelectorAll".
                     // example : var selectBoxes = document.querySelectorAll(".selectBoxes");
-                    if($('input[name=job]') && $('input[name=jobSelectBox] option:checked').val() == "000") alert("Please choose a job.");
-                    if($('input[name=levelSelectBox] option:checked').val() == "000") alert("Please choose a mode level.");
+                    if(!!$('#jobYn').prop("checked") && $('#job option:checked').val() == "000") return message = "Please choose a job.";
+                    else if($('#level option:checked').val() == "000") return message = "Please choose a mode level.";
+                default :
+                    return;
             }
         }
     </script>
