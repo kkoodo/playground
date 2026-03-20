@@ -13,6 +13,19 @@ export default {
 		const message = ref('Hello Vue3');
 		const reverseMessage = ref('');
 
+		// 1. use "immediate" option
+		// watch(
+		// 	message,
+		// 	newValue => {
+		// 		console.log('즉시실행함!!!');
+		// 		reverseMessage.value = newValue.split('').reverse().join('');
+		// 	},
+		// 	{
+		// 		immediate: true,
+		// 	},
+		// );
+
+		// 2. run the function immediately
 		const reverseFunction = () => {
 			console.log('즉시실행함!!!');
 			reverseMessage.value = message.value.split('').reverse().join('');
