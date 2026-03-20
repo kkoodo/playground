@@ -24,6 +24,27 @@ export default {
 		};
 	},
 };
+
+// test reactive
+// import { reactive } from 'vue';
+
+// export default {
+// 	setup() {
+// 		let message = reactive('Hello Vue!');
+
+// 		const addMessage = () => {
+// 			message = message + '!';
+// 		};
+
+// 		console.log(message);
+// 		console.log('message typeof: ', typeof message);
+
+// 		return {
+// 			message,
+// 			addMessage,
+// 		};
+// 	},
+// };
 </script>
 
 <style lang="scss" scoped></style>
