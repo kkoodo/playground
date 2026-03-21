@@ -47,9 +47,11 @@ const child = ref(null);
 defineExpose({
 	msg,
 });
-const response = await axios(
-	'https://dummy.restapiexample.com/api/v1/employees',
-);
+// const response = await axios(
+// 	'https://dummy.restapiexample.com/api/v1/employees',
+// );
+// ↑ prevent CORS error ↓
+const response = await axios('https://jsonplaceholder.typicode.com/posts');
 console.log('response: ', response);
 // async function callApi() {
 // 	const response = await axios('https://dummy.restapiexample.com/api/v1/employees')
