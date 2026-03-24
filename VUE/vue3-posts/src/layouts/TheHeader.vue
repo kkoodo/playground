@@ -16,12 +16,18 @@
 				</button>
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<ul class="navbar-nav me-auto">
-						<li class="nav-item">
-							<a class="nav-link active" aria-current="page" href="#">Home</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">About</a>
-						</li>
+						<!-- Absolute Path -->
+						<!-- <li class="nav-item">
+							<a class="nav-link" href="/about">About</a>
+						</li> -->
+						<!-- Router Link -->
+						<!-- <RouterLink class="nav-link active" to="/">Home</RouterLink> -->
+						<RouterLink class="nav-link" active-class="active" to="/"
+							>Home</RouterLink
+						>
+						<RouterLink class="nav-link" active-class="active" to="/about"
+							>About</RouterLink
+						>
 					</ul>
 					<form class="d-flex" role="search">
 						<input
